@@ -1,0 +1,52 @@
+plugins {
+    id 'java'
+    id "org.gauge" version "1.8.2"
+    id "com.gradleup.static-analysis" version "1.4"
+    id "com.github.spotbugs" version "4.7.4"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    implementation 'org.mybatis:mybatis:3.5.7'
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+    implementation 'com.thoughtworks.gauge:gauge-java:0.7.15'
+    implementation 'com.codeborne:selenide:5.18.1'
+    implementation 'io.github.bonigarcia:webdrivermanager:5.0.3'
+    implementation group: 'com.squareup.okhttp3', name: 'okhttp', version: '4.10.0-RC1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.0-rc1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.13.0-rc1'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.13.0-rc1'
+    implementation group: 'com.google.inject', name: 'guice', version: '5.0.1'
+    implementation group: 'org.mybatis', name: 'mybatis-guice', version: '3.12'
+}
+
+staticAnalysis {
+    penalty {
+        maxErrors = 0
+        maxWarnings = 0
+    }
+    checkstyle { toolVersion = 9.0 }
+    pmd { }
+    spotbugs { }
+}
+
+test {
+    useJUnitPlatform()
+}
+
+gauge {
+    specsDir = 'specs'
+    inParallel = false
+    nodes = 1
+    env = 'default'
+    tags = 'tag1'
+    additionalFlags = '--verbose'
+    gaugeRoot = '/opt/gauge'
+}
